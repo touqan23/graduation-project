@@ -39,6 +39,10 @@ class CompanyRequestService
             ['label' => 'جناح مجهز', 'value' => 'Equipped Booth'],
             ['label' => 'جناح غير مجهز', 'value' => 'Not Equipped Booth'],
             ['label' => 'مساحة فقط', 'value' => 'Row Space Only'],
+            ['label' => 'اكشاك بيع ab', 'value' => 'Kiosk AB'],
+            ['label' => 'اكشاك بيع cd', 'value' => 'Kiosk CD'],
+
+
         ];
 
     }

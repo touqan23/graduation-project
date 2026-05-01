@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('globalsettings', function (Blueprint $table) {
+        Schema::create('sectors', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique()->index();
-            $table->jsonb('value')->nullable();
-            $table->string('type')->default('text');
-            $table->string('group')->index();
+            $table->jsonb('name');
+            $table->foreignId('hall_id')->nullable()->constrained('halls')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('globalsettings');
+        Schema::dropIfExists('sectors');
     }
 };

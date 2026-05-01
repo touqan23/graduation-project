@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\globalsetting;
+use App\Models\Globalsetting;
 use Illuminate\Support\Facades\Cache;
+
 
 class LandingPageSettingSeeder extends Seeder
 {
@@ -17,19 +18,28 @@ class LandingPageSettingSeeder extends Seeder
             // --- Section: Hero ---
             [
                 'key' => 'hero_title',
-                'value' => 'وعز الشرق أوله دمشق',
+                'value' => [
+                    'ar' => 'وعز الشرق أوله دمشق',
+                    'en' => 'The Glory of the East begins in Damascus'
+                ],
                 'type' => 'text',
                 'group' => 'hero'
             ],
             [
                 'key' => 'hero_subtitle',
-                'value' => 'معرض دمشق الدولي - منصة الأعمال والتجارة الرائدة في المنطقة',
+                'value' => [
+                    'ar' => 'معرض دمشق الدولي - منصة الأعمال والتجارة الرائدة في المنطقة',
+                    'en' => 'Damascus International Fair - The Leading Business and Trade Platform in the Region'
+                ],
                 'type' => 'text',
                 'group' => 'hero'
             ],
             [
                 'key' => 'hero_image',
-                'value' => 'main_pages/ZN2DcSVZCG8J95aX8K6aIAjJyVdwiYQuhWTo6mZ9.png',
+                'value' => [
+                    'ar' => 'main_pages/ZN2DcSVZCG8J95aX8K6aIAjJyVdwiYQuhWTo6mZ9.png',
+                    'en' => 'main_pages/ZN2DcSVZCG8J95aX8K6aIAjJyVdwiYQuhWTo6mZ9.png'
+                ],
                 'type' => 'image',
                 'group' => 'hero'
             ],
@@ -37,71 +47,86 @@ class LandingPageSettingSeeder extends Seeder
             // --- Section: About ---
             [
                 'key' => 'about_title',
-                'value' => 'عن المعرض',
+                'value' => [
+                    'ar' => 'عن المعرض',
+                    'en' => 'About the Fair'
+                ],
                 'type' => 'text',
                 'group' => 'about'
             ],
             [
                 'key' => 'about_content',
-                'value' => 'معرض دمشق الدولي هو أحد أقدم وأعرق المعارض في المنطقة، يجمع تحت سقف واحد أبرز الشركات والعلامات التجارية من مختلف القطاعات الاقتصادية منذ تأسيسه، يشكل المعرض منصة حيوية لتبادل الخبرات وإبرام الصفقات التجارية، مساهماً في تعزيز الاقتصاد الوطني وفتح آفاق جديدة للتعاون الإقليمي والدولي.',
+                'value' => [
+                    'ar' => 'معرض دمشق الدولي هو أحد أقدم وأعرق المعارض في المنطقة، يجمع تحت سقف واحد أبرز الشركات والعلامات التجارية من مختلف القطاعات الاقتصادية منذ تأسيسه.',
+                    'en' => 'Damascus International Fair is one of the oldest and most prestigious exhibitions in the region, bringing together prominent companies and brands from various economic sectors.'
+                ],
                 'type' => 'text',
                 'group' => 'about'
             ],
             [
                 'key' => 'about_image',
-                'value' => 'main_pages/9fJ8RLxLCfB7wsZvE9VKQpjCP2j1VFkFYDiulRn7.jpg',
+                'value' => [
+                    'ar' => 'main_pages/9fJ8RLxLCfB7wsZvE9VKQpjCP2j1VFkFYDiulRn7.jpg',
+                    'en' => 'main_pages/9fJ8RLxLCfB7wsZvE9VKQpjCP2j1VFkFYDiulRn7.jpg'
+                ],
                 'type' => 'image',
                 'group' => 'about'
             ],
 
-            // --- Section: Stats (الكرت الأصفر) ---
+            // --- Section: Stats ---
             [
                 'key' => 'stats_title',
-                'value' => 'معرض دمشق الدولي 62',
+                'value' => [
+                    'ar' => 'معرض دمشق الدولي 62',
+                    'en' => 'Damascus International Fair 62'
+                ],
                 'type' => 'text',
                 'group' => 'stats'
             ],
             [
                 'key' => 'stats_description',
-                'value' => 'تستضيف الدورة الثانية والستون من معرض دمشق الدولي أكثر من 1,500 عارض من مختلف أنحاء العالم، حيث يتم عرض أحدث المنتجات والخدمات في قطاعات الصناعة، التجارة، التكنولوجيا، والزراعة.',
+                'value' => [
+                    'ar' => 'تستضيف الدورة الثانية والستون من معرض دمشق الدولي أكثر من 1,500 عارض من مختلف أنحاء العالم، حيث يتم عرض أحدث المنتجات والخدمات في قطاعات الصناعة، التجارة، التكنولوجيا، والزراعة.',
+                    'en' => 'The 62nd edition of the Damascus International Fair hosts more than 1,500 exhibitors from around the world, showcasing the latest products and services across the industrial, commercial, technological, and agricultural sectors.'
+                ],
                 'type' => 'text',
                 'group' => 'stats'
-            ],
-            [
-                'key' => 'stats_image',
-                'value' => 'main_pages/k49sh0buhciCH26Qpio29DfjBzRQ1j1ncRqacahQ.jpg',
-                'type' => 'image',
-                'group' => 'stats'
-            ],
-
-            // --- Section: Video Experience ---
-            [
-                'key' => 'experience_video_url',
-                'value' => 'https://youtu.be/_LdRcEHRKhY?si=wgQzM0MbO1NTF_jn',
-                'type' => 'text',
-                'group' => 'experience'
             ],
 
             // --- Section: Date & Location ---
             [
                 'key' => 'event_date',
-                'value' => '27 آب - 5 أيلول 2025',
+                'value' => [
+                    'ar' => '27 آب - 5 أيلول 2025',
+                    'en' => 'August 27 - September 5, 2025'
+                ],
                 'type' => 'text',
                 'group' => 'event_info'
             ],
             [
                 'key' => 'event_location',
-                'value' => 'أرض المعارض، دمشق',
+                'value' => [
+                    'ar' => 'أرض المعارض، دمشق',
+                    'en' => 'Fairgrounds, Damascus'
+                ],
                 'type' => 'text',
                 'group' => 'event_info'
             ],
         ];
 
         foreach ($settings as $setting) {
-            globalsetting::updateOrCreate(['key' => $setting['key']], $setting);
+            $item = Globalsetting::firstOrNew(['key' => $setting['key']]);
+
+            $item->type = $setting['type'];
+            $item->group = $setting['group'];
+
+            // نمرر المصفوفة كاملة ['ar' => '...', 'en' => '...'] دفعة واحدة
+            $item->setTranslations('value', $setting['value']);
+
+            $item->save();
         }
 
-        // مسح الكاش لضمان وصول التحديثات الجديدة فوراً للفرونت (ملاحظة 5)
-        Cache::forget('global_settings');
+        Cache::forget('global_settings_ar');
+        Cache::forget('global_settings_en');
     }
 }

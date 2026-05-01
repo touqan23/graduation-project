@@ -2,12 +2,14 @@
 
 namespace App\Jobs\Auth;
 
+use App\Models\ExhibitionProfile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
@@ -27,9 +29,21 @@ class SendOtpEmailJob implements ShouldQueue
 
     public function handle(): void
     {
-        Mail::send([], [], function (Message $message) {
+        $exhibitionEmail = Cache::rememberForever('exhibition_contact_email', function () {
+            return ExhibitionProfile::value('contact_email') ?? config('mail.from.address');
+        });
+        $exhibitionName = 'DIEMS Helper';
+
+        // 2. ضبط الإعدادات بشكل دايناميكي قبل الإرسال
+        config([
+            'mail.from.address' => $exhibitionEmail,
+            'mail.from.name'    => $exhibitionName
+        ]);
+
+        Mail::send([], [], function (Message $message) use ($exhibitionEmail,$exhibitionName) {
             $message
                 ->to($this->email)
+                ->from($exhibitionEmail,$exhibitionName)
                 ->subject('Your DIEMS Password Reset Code')
                 ->html(
                     "<p>Hello {$this->name},</p>" .

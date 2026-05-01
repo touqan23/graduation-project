@@ -23,9 +23,6 @@ class Promotion extends Model
         'is_active'  => 'boolean',
     ];
 
-    /**
-     * العرض ينتمي لشركة واحدة
-     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

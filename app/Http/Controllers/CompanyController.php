@@ -62,26 +62,22 @@ class CompanyController extends Controller
     }
 
     //function to bring the info of first page on company web
-    public function getFirstPage(GetGlobalSettingsAction $action): JsonResponse
+    public function getFirstPage(Request $request, GetGlobalSettingsAction $action): JsonResponse
     {
         try {
-            // تنفيذ الـ Action الذي يتضمن الـ Caching في Redis
-            $settings = $action->execute();
+            // نأخذ اللغة من الـ Header (مثلاً: Accept-Language: en) أو نعتمد العربي كافتراضي
+            $lang = $request->header('lang', 'ar');
+
+            $settings = $action->execute($lang);
 
             return response()->json([
                 'success' => true,
                 'data' => $settings,
-                'message' => 'Settings retrieved successfully'
+                'message' => ($lang == 'ar') ? 'تم جلب البيانات بنجاح' : 'Settings retrieved successfully'
             ], 200);
 
         } catch (\Exception $e) {
-            // تسجيل الخطأ في Telescope أو Log للمتابعة
-            Log::error("Error in InitialConfigController: " . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'حدث خطأ أثناء جلب الإعدادات العامة'
-            ], 500);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 

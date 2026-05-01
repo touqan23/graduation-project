@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\globalsetting;
+use App\Models\Globalsetting;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
           CompanyPageSettingSeeder::class,
           PricingTierSeeder::class,
           RoleSeeder::class,
+          WelcomePageSeeder::class,
+          DataSeeder::class,
+          EventSeeder::class,
         ]);
     }
 }

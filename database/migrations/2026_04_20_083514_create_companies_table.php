@@ -19,13 +19,16 @@ return new class extends Migration
             $table->string('logo')->nullable(); // مسار اللوغو
             $table->string('responsible_person');
             $table->string('sector');
+            $table->foreignId('sector_id')->constrained('sectors')->onDelete('cascade');
             $table->text('bio')->nullable();
             $table->text('address');
             $table->float('final_area');
             $table->string('booth_type'); // 'Equipped Booth', etc.
             $table->boolean('is_active')->default(true);
 
+            $table->softDeletes();
             $table->timestamps();
+            $table->index(['sector', 'is_active']);
         });
     }
 
@@ -34,6 +37,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropIndex(['sector', 'is_active']);
+        });
     }
 };

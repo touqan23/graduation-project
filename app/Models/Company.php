@@ -28,8 +28,40 @@ class Company extends Model
         return $this->belongsTo(CompanyRequest::class, 'company_request_id');
     }
 
+    public function sectoor(): BelongsTo
+    {
+        return $this->belongsTo(Sector::class, 'sector_id');
+    }
+
     public function products() {
         return $this->hasMany(Product::class);
+    }
+
+    public function booths(): HasMany
+    {
+        return $this->hasMany(Booth::class, 'company_id');
+    }
+
+    // ─── Helpers ────────────────────────────────────
+    public function hasSalesBooth(): bool
+    {
+        return $this->booth?->booth_type === 'sales';
+    }
+
+    // ─── Scopes ─────────────────────────────────────
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+        /*return $query->where('is_active', true)
+        ->whereHas('companyRequest', function ($q) {
+            $q->where('request_status', 'approved')
+                ->where('payment_status', 'paid')
+        )};*/
+    }
+
+    public function scopeBySector($query, int $sectorId)
+    {
+        return $query->where('sector_id', $sectorId);
     }
 
     public function getActivitylogOptions(): LogOptions

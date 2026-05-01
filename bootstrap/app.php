@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SetAppLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,12 +22,16 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // 2. راوتاتك الخاصة (Company)
             Route::middleware('api')
-                ->prefix('api')
+                ->prefix('api/company')
                 ->group(base_path('routes/api/company.php'));
+
+            Route::middleware('api')
+                ->prefix('api/visitor')
+                ->group(base_path('routes/api/visitor.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append(SetAppLocale::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
 
