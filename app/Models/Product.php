@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Translatable\HasTranslations;
 
 
 class Product extends Model
 {
 
    // use LogsActivity;
+
+    use HasTranslations;
+
     protected $fillable =[
         'company_id',
         'name',
@@ -22,6 +26,11 @@ class Product extends Model
 
     protected $casts =[
         'price' => 'decimal:2',
+    ];
+
+    public $translatable = [
+        'name',
+        'description',
     ];
 
     public function company() {

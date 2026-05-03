@@ -2,7 +2,7 @@
 
 namespace App\Actions\Company;
 
-use App\Actions\BaseAction;
+use app\Actions\General\BaseAction;
 use App\Models\Promotion;
 use Exception;
 

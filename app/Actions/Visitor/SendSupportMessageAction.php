@@ -2,8 +2,7 @@
 
 namespace App\Actions\Visitor;
 
-use App\Actions\BaseAction;
-use App\Http\Resources\ExhibitionProfileResource;
+use app\Actions\General\BaseAction;
 use App\Mail\SupportMessageMail;
 use App\Models\ExhibitionProfile;
 use Illuminate\Support\Facades\Cache;

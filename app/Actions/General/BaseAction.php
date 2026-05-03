@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Actions;
+namespace app\Actions\General;
 
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Model;
-use Exception;
 
 abstract class BaseAction
 {
@@ -14,7 +14,7 @@ abstract class BaseAction
      */
     protected function executeAction(
         callable $callback,
-        string $message = '',
+        string|array $message = '',
         array $properties = [],
         bool $shouldLog = false //هاد ضفتو شمان حل مشكلة تكرار السطور الي كانت بجدول الاكتيفيتي لوق بحيث انو مو شرط كل مرا بدي ترانساكشن يعني بدي لوق
     ) {
@@ -38,15 +38,20 @@ abstract class BaseAction
     }
 
 
-    protected function recordActivity(string $message, ?Model $subject, array $properties): void
+    protected function recordActivity(string|array $message, ?Model $subject, array $properties): void
     {
+        $description = is_array($message) ? $message : [
+            'ar' => $message,
+            'en' => $properties['en_message'] ?? $message // نص بديل بالإنجليزي إذا وجد
+        ];
+
         activity()
             ->useLog('actions')
             ->event($properties['event_type'] ?? $this->guessEventType())
             ->causedBy(auth()->user())
             ->performedOn($subject)
             ->withProperties($properties)
-            ->log($message);
+            ->log(json_encode($description));
     }
 
     /**

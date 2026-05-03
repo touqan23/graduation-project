@@ -27,6 +27,7 @@ class UpdateCompanyProfileRequest extends FormRequest
             'email' => 'sometimes|required|email|unique:users,email,' . $userId,
             'phonenumber' => 'sometimes|required|string|unique:users,phonenumber,' . $userId,
             'bio' => 'sometimes|required|string',
+            'address' => 'sometimes|required|string',
             'logo' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }

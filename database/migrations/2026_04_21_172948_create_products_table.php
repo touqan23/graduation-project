@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->text('description');
+            $table->jsonb('name');
+            $table->jsonb('description');
             $table->decimal('price', 10, 2)->nullable(); // اختياري
             $table->timestamps();
         });

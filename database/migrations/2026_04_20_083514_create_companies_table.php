@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('company_request_id')->constrained()->onDelete('restrict');
-            $table->string('name');
-            $table->string('logo')->nullable(); // مسار اللوغو
+            $table->jsonb('name');
+            $table->string('logo')->nullable();
             $table->string('responsible_person');
             $table->string('sector');
             $table->foreignId('sector_id')->constrained('sectors')->onDelete('cascade');
-            $table->text('bio')->nullable();
-            $table->text('address');
+            $table->jsonb('bio')->nullable();
+            $table->jsonb('nationality');
+            $table->jsonb('address');
             $table->float('final_area');
             $table->string('booth_type'); // 'Equipped Booth', etc.
             $table->boolean('is_active')->default(true);

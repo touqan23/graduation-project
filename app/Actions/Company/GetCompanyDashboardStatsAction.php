@@ -9,23 +9,28 @@ class GetCompanyDashboardStatsAction
 {
     public function execute(Company $company): array
     {
-        $productsCount = $company->products()->count();
-        $promotionsCount = $company->promotions()->count();
+        $locale = app()->getLocale();
+
         $recentActivities = Activity::where('causer_id', auth()->id())
             ->latest()
             ->take(5)
             ->get()
-            ->map(function ($activity) {
+            ->map(function ($activity) use ($locale) {
+                $descriptionArray = json_decode($activity->description, true);
+                $description = is_array($descriptionArray)
+                    ? ($descriptionArray[$locale] ?? $descriptionArray['ar'])
+                    : $activity->description;
+
                 return [
-                    'description' => $activity->description,
-                    'time' => $activity->created_at->diffForHumans(), // مثل: "منذ ساعتين"
+                    'description' => $description,
+                    'time' => $activity->created_at->diffForHumans(),
                 ];
             });
 
         return [
-            'products_count'    => $productsCount,
-            'promotions_count'  => $promotionsCount,
-            'status'            => 'مقبول',
+            'products_count'    => $company->products()->count(),
+            'promotions_count'  => $company->promotions()->count(),
+            'status'            => $locale === 'ar' ? 'مقبول' : 'Approved',
             'recent_activities' => $recentActivities
         ];
     }

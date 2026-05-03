@@ -7,6 +7,7 @@ use App\Actions\Company\DeleteProductAction;
 use App\Actions\Company\DeletePromotionAction;
 use App\Actions\Company\GetCompanyDashboardStatsAction;
 use App\Actions\Company\GetCompanyProductsAction;
+use App\Actions\Company\GetCompanyProfileAction;
 use App\Actions\Company\GetCompanyPromotionsAction;
 use App\Actions\Company\GetGlobalSettingsAction;
 use App\Actions\Company\PromoteApprovedRequestsAction;
@@ -141,7 +142,7 @@ class CompanyController extends Controller
             $userData['name'] = $request->name;
         }
 
-        $companyData = $request->only(['bio', 'name']);
+        $companyData = $request->only(['bio', 'name','address']);
 
         $updatedCompany = $action->execute(
             $company,
@@ -388,6 +389,40 @@ class CompanyController extends Controller
                 'status'  => 'error',
                 'message' => $e->getMessage()
             ], 400);
+        }
+    }
+    //////////////////function to get company profile info
+    public function getCompanyProfile(GetCompanyProfileAction $action): JsonResponse
+    {
+        try {
+            $company = $action->execute();
+
+            return response()->json([
+                'status' => 'success',
+                'data'   => [
+                    'id'                 => $company->id,
+                    'name'               => $company->name,
+                    'logo'               => $company->logo ? asset('storage/' . $company->logo) : null,
+                    'responsible_person' => $company->responsible_person,
+                    'sector'             => $company->sector,
+                    'sector_details'     => [
+                        'id'   => $company->sector_id,
+                        'name' => $company->sector_relation ? $company->sector_relation->name : null,                        ],
+                    'bio'                => $company->bio,
+                    'nationality'        => $company->nationality,
+                    'address'            => $company->address,
+                    'final_area'         => $company->final_area,
+                    'booth_type'         => $company->booth_type,
+                    'is_active'          => $company->is_active,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => $e->getMessage(), // سيظهر لكِ مثلاً ModelNotFoundException أو خطأ في الكود
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine()
+            ], 404);
         }
     }
 }

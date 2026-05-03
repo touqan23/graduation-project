@@ -7,15 +7,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Translatable\HasTranslations;
 
 class Company extends Model
 {
     protected $guarded = [];
-    use LogsActivity;
+    use LogsActivity,HasTranslations;
 
     protected $casts = [
         'is_active' => 'boolean',
         'final_area' => 'float',
+    ];
+
+    public $translatable = [
+        'name',
+        'bio',
+        'nationality',
+        'address'
     ];
 
     public function user(): BelongsTo
@@ -28,7 +36,12 @@ class Company extends Model
         return $this->belongsTo(CompanyRequest::class, 'company_request_id');
     }
 
-    public function sectoor(): BelongsTo
+    public function sector(): BelongsTo {
+        return $this->belongsTo(Sector::class, 'sector_id');
+    }
+
+    // داخل موديل Company
+    public function sector_relation(): BelongsTo // غيرنا الاسم هنا
     {
         return $this->belongsTo(Sector::class, 'sector_id');
     }

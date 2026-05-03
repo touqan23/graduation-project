@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class CompanyRequest extends Model
 {
-    use HasFactory;
+    use HasFactory,HasTranslations;
+
 
     protected $table = 'company_requests';
 
@@ -40,6 +42,13 @@ class CompanyRequest extends Model
         'total_price' => 'decimal:2',
         'required_deposit' => 'decimal:2',
         'paid_amount' => 'decimal:2',
+    ];
+
+    public $translatable = [
+        'company_name',
+        'company_description',
+        'nationality',
+        'address',
     ];
 
 

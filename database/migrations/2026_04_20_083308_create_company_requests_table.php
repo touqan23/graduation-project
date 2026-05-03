@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('company_requests', function (Blueprint $table) {
             $table->id();
             $table->enum('foreign_local' , ['foreign', 'local',])->default('local');
-            $table->string('company_name');
+            $table->jsonb('company_name');
             $table->string('responsible_name');
             $table->string('job_title');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->string('nationality');
+            $table->jsonb('nationality');
             $table->string('commercial_register');
-            $table->text('address');
+            $table->jsonb('address');
             $table->string('sector');
-            $table->text('company_description');
+            $table->jsonb('company_description');
 
             // بيانات المساحة والبثوث
             $table->float('requested_area'); // المساحة بالمتر المربع

@@ -93,6 +93,31 @@ class LandingPageSettingSeeder extends Seeder
                 'group' => 'stats'
             ],
 
+            [
+                'key' => 'stats_image',
+                'value' => [
+                    'ar' => 'main_pages/k49sh0buhciCH26Qpio29DfjBzRQ1j1ncRqacahQ.jpg',
+                    'en'=>'main_pages/k49sh0buhciCH26Qpio29DfjBzRQ1j1ncRqacahQ.jpg'
+                ],
+                'type' => 'image',
+                'group' => 'stats'
+            ],
+
+
+
+            // --- Section: Video Experience ---
+
+            [
+              'key' => 'experience_video_url',
+                'value' => [
+                    'ar' => 'https://youtu.be/_LdRcEHRKhY?si=wgQzM0MbO1NTF_jn',
+                    'en' => 'https://youtu.be/_LdRcEHRKhY?si=wgQzM0MbO1NTF_jn'
+                ],
+                'type' => 'vedio',
+                'group' => 'experience'
+            ],
+
+
             // --- Section: Date & Location ---
             [
                 'key' => 'event_date',

@@ -2,22 +2,30 @@
 
 namespace App\Actions\Company;
 
-use App\Actions\BaseAction;
+use app\Actions\General\BaseAction;
+use App\Actions\General\TranslateTextAction;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
 
 class UpdateCompanyProfileAction extends BaseAction
 {
-    /**
-     * تحديث بيانات الشركة والمستخدم المرتبط بها
-     */
+    public function __construct(
+        protected TranslateTextAction $translateAction
+    ) {}
+
     public function execute(Company $company, array $userData, array $companyData, $logo = null): Company
     {
-        // نستخدم الـ executeAction الذي سيتكفل بالـ Transaction والـ Activity Log
-        return $this->executeAction(function () use ($company, $userData, $companyData, $logo) {
+        if (isset($companyData['name'])) {
+            $companyData['name'] = $this->translateAction->execute($companyData['name']);
+        }
+        if (isset($companyData['company_description'])) {
+            $companyData['company_description'] = $this->translateAction->execute($companyData['company_description']);
+        }
+        if (isset($companyData['address'])) {
+            $companyData['address'] = $this->translateAction->execute($companyData['address']);
+        }
 
-            // 1. تحديث بيانات المستخدم (الاسم، الإيميل، إلخ)
-            // بما أن هذا الموديل ليس هو الـ Result النهائي، سنحفظ تغييراته يدوياً للـ Log
+        return $this->executeAction(function () use ($company, $userData, $companyData, $logo) {
             $company->user->update($userData);
 
             $userChanges = [];
@@ -27,28 +35,20 @@ class UpdateCompanyProfileAction extends BaseAction
                     'old' => array_intersect_key($company->user->getOriginal(), $company->user->getChanges())
                 ];
             }
-
-            // 2. معالجة اللوغو الخاص بالشركة
             if ($logo) {
-                // حذف اللوغو القديم من S3 إذا وجد
                 if ($company->logo) {
                     Storage::disk('s3')->delete($company->logo);
                 }
-                // رفع اللوغو الجديد
                 $companyData['logo'] = $logo->store('companies/logos', 's3');
             }
-
-            // 3. تحديث بيانات الشركة
-            // ملاحظة: الـ BaseAction سيلقط تغييرات هذا الموديل تلقائياً لأنه الـ Result
             $company->update($companyData);
-
-            // 4. دمج تغييرات المستخدم في مصفوفة الخصائص لتظهر في سجل واحد
-            // سنستخدم متغير داخلي لتمريره للـ recordActivity لاحقاً
-            $this->customProperties = !empty($userChanges) ? ['user_updates' => $userChanges] : [];
-
-            // إرجاع الموديل مع بيانات المستخدم المحدثة
+            $properties = !empty($userChanges) ? ['user_updates' => $userChanges] : [];
+            $properties['event_type'] = 'profile_updated';
             return $company->fresh(['user']);
 
-        }, "تم تحديث بيانات الملف الشخصي (الشركة والمستخدم)", $this->customProperties ?? [], false);
+        }, [
+            'ar' => "تم تحديث بيانات الملف الشخصي للشركة بنجاح",
+            'en' => "Company profile information has been updated successfully"
+        ], $properties ?? ['event_type' => 'profile_updated'], true); // تفعيل الـ Log بوضع true
     }
 }
