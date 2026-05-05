@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->jsonb('event_title');
             $table->jsonb('event_description');
-            $table->string('Expected_attendance');
+            $table->integer('Expected_attendance');
             $table->text('equipment_needed')->nullable();
             $table->string('image')->nullable(); //مسار صورة الفعالية
             $table->boolean('is_special')->default(false);
@@ -55,8 +55,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('event_requests', function (Blueprint $table) {
-            $table->dropIndex(['status', 'hall_id']);
-            $table->dropIndex(['sector_id', 'status']);
+            $table->dropIndex('payment_status');
+            $table->dropIndex(['request_status', 'payment_status']);
+            $table->dropIndex(['sector_id', 'request_status']);
         });
     }
 };

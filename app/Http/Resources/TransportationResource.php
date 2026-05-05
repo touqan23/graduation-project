@@ -13,7 +13,7 @@ class TransportationResource extends JsonResource
         $lang = app()->getLocale();
         return [
             'id'              => $this->id,
-            'name'            => $this->name[$lang] ?? $this->name['ar'],
+            'name'            => $this->name,
             'image'           => $this->image ? Storage::disk('s3')->url($this->image) : null,
             'google_maps_url' => $this->google_maps_url,
         ];

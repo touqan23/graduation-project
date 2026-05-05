@@ -9,12 +9,13 @@ use App\Actions\Visitor\GetTransportationAction;
 use App\Actions\Visitor\GetWelcomePageAction;
 use App\Actions\Visitor\SendSupportMessageAction;
 use App\Http\Resources\CompanyDetailResource;
-use App\Mail\SupportMessageMail;
+use App\Http\Resources\VisitorHomePage\HomePageResource;
 use App\Models\Company;
+use App\Services\HomePageService;
 use App\Traits\ApiResponse;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class VisitorController extends Controller
 {
@@ -24,6 +25,21 @@ class VisitorController extends Controller
         $data = $action->execute();
         return $this->success($data, 'Welcome page content retrieved.');
 
+    }
+
+    public function homePage(Request $request, HomePageService $service): JsonResponse
+    {
+        // 1. جلب رقم الصفحة من الـ Request (الافتراضي 1)
+        $page = $request->query('page', 1);
+
+        // 2. تمرير رقم الصفحة للـ Service
+        $data = $service->getHomePageData($page);
+
+        // 3. إرجاع الـ Resource (والذي سيتعامل مع الـ Pagination بداخله كما شرحنا سابقاً)
+        return $this->success(
+            new HomePageResource($data),
+            'Home page data fetched successfully'
+        );
     }
 
     public function getProfile(GetProfileAction $action): JsonResponse

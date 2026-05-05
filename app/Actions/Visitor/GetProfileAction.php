@@ -3,6 +3,7 @@
 namespace App\Actions\Visitor;
 
 use App\Http\Resources\EventResource;
+use App\Http\Resources\ExhibitionProfileResource;
 use App\Models\ExhibitionProfile;
 use App\Models\GlobalSetting;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +22,7 @@ class GetProfileAction
             if (!$profile) {
                 return null;
             }
-            return (new EventResource($profile))->resolve();
+            return (new ExhibitionProfileResource($profile))->resolve();
         });
     }
 }

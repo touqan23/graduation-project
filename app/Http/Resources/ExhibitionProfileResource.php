@@ -15,10 +15,10 @@ class ExhibitionProfileResource extends JsonResource
 
         return [
             'id'      => $this->id,
-            'name'    => $this->name[$lang] ?? null,
+            'name'    => $this->name,
             'session' => $this->session,
-            'address' => $this->address[$lang] ?? null,
-            'bio'     => $this->bio[$lang] ?? null,
+            'address' => $this->address,
+            'bio'     => $this->bio,
             'dates' => [
                 'start' => $this->start_date ? Carbon::parse($this->start_date)->format('d-m-Y') : null,
                 'end'   => $this->end_date ? Carbon::parse($this->start_date)->format('d-m-Y') : null,

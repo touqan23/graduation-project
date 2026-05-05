@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(VisitorController::class)->group(function () {
     Route::get('welcome-page','welcomePage');
+    Route::get('home-page','homePage');
     Route::get('profile-page','getProfile');
     Route::get('companies','getCompanies');
     Route::get('companies/{company}','companyDetails');
